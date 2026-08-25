@@ -88,10 +88,14 @@ export class StyleSheets {
     }
   }
 
-  private static splitSelectorAtCommas(selectorText: string): string[] {
+  public static splitSelectorAtCommas(selectorText: string): string[] {
+    if (selectorText.trim().length === 0) {
+      return []
+    }
+
     const initialRegex = /,|["']/g
-    const closingDoubleQuotesRegex = /[^\\]["]/g
-    const closingSingleQuotesRegex = /[^\\][']/g
+    const closingDoubleQuotesRegex = /\\[\s\S]|"/g
+    const closingSingleQuotesRegex = /\\[\s\S]|'/g
     const parts = []
 
     let state: 'initial' | 'withinQuotes' = 'initial'
@@ -124,11 +128,14 @@ export class StyleSheets {
         case 'withinQuotes':
           closingQuotesRegex.lastIndex = i
           match = closingQuotesRegex.exec(selectorText)
-          if (match) {
+          if (!match) {
+            i = selectorText.length
+          } else {
             i = closingQuotesRegex.lastIndex
-            state = 'initial'
+            if (match[0].length === 1) {
+              state = 'initial'
+            }
           }
-          // else this is a syntax error - omit the last part...
           break
       }
     }
