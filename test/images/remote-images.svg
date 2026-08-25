@@ -2,5 +2,5 @@
 <svg width="320" height="320" xmlns="http://www.w3.org/2000/svg">
     <rect color="black" width="300" height="300"/>
     <image width="250" height="250"
-           href="/base/test/specs/remote-images/SIPI_Jelly_Beans_4.1.07.tiff.jpg"/>
+           href="/test/images/SIPI_Jelly_Beans_4.1.07.tiff.jpg"/>
 </svg>

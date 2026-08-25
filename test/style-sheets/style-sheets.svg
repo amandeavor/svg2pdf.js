@@ -1,11 +1,11 @@
-<?xml-stylesheet href="/base/test/specs/style-sheets/xml-stylesheet.css" type="text/css"?>
+<?xml-stylesheet href="/test/style-sheets/xml-stylesheet.css" type="text/css"?>
 <?xml-stylesheet href="xml-stylesheet.css" type="text/css"?>
 <svg xmlns="http://www.w3.org/2000/svg" width="500" height="500">
   <style>
     .style-tag-before-link-wins { fill: green }
     .style-tag-after-link-wins { fill: red }
   </style>
-  <link xmlns="http://www.w3.org/1999/xhtml" rel="stylesheet" href="/base/test/specs/style-sheets/link-stylesheet.css"
+  <link xmlns="http://www.w3.org/1999/xhtml" rel="stylesheet" href="/test/style-sheets/link-stylesheet.css"
         type="text/css"/>
   <link xmlns="http://www.w3.org/1999/xhtml" rel="stylesheet" href="link-stylesheet.css"
         type="text/css"/>

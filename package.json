@@ -68,6 +68,7 @@
     "cssesc": "^3.0.0",
     "exorcist": "^2.0.0",
     "font-family-papandreou": "^0.2.0-patch1",
+    "jest-diff": "^29.7.0",
     "jspdf": "^4.0.0",
     "oxfmt": "^0.63.0",
     "oxlint": "^1.78.0",
