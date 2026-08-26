@@ -1,7 +1,7 @@
 import { defineConfig } from 'vitest/config'
 import { playwright } from '@vitest/browser-playwright'
-import pdfSnapshotPlugin from './test/utils/browser-command.ts'
-import { serveTestAssets } from './test/utils/serveTestAssets.ts'
+import pdfSnapshotPlugin from './test/utils/browser-command.js'
+import { serveTestAssets } from './test/utils/serveTestAssets.js'
 
 export default defineConfig({
   plugins: [serveTestAssets(), pdfSnapshotPlugin()],

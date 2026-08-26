@@ -1,5 +1,5 @@
 import { describe, expect, it } from 'vitest'
-import { parseFloats } from '../../src/utils/parsing.ts'
+import { parseFloats } from '../../src/utils/parsing.js'
 
 describe('parseFloats', () => {
   it('returns an empty array when the input contains no numbers', () => {
