@@ -1,0 +1,4 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 300 60" width="300px" height="60px">
+  <text x="20" y="30" font-family="微软雅黑" font-size="16px">Hello, world!</text>
+  <text x="20" y="50" font-family="Arial, 微软雅黑, sans-serif" font-size="14px">Fallback list</text>
+</svg>
