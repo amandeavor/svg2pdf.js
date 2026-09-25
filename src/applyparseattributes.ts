@@ -1,7 +1,7 @@
 import { Context } from './context/context'
 import { getAttribute, nodeIs } from './utils/node'
 import { toPixels } from './utils/misc'
-import { parseColor, parseFloats } from './utils/parsing'
+import { parseColor, parseFloats, isEffectivelySolidDashArray } from './utils/parsing'
 import FontFamily from 'font-family-papandreou'
 import { SvgNode } from './nodes/svgnode'
 import {
@@ -92,8 +92,12 @@ export function parseAttributes(context: Context, svgNode: SvgNode, node?: Eleme
     const dashOffset = parseInt(
       getAttribute(domNode, context.styleSheets, 'stroke-dashoffset') || '0'
     )
-    context.attributeState.strokeDasharray = parseFloats(dashArray)
-    context.attributeState.strokeDashoffset = dashOffset
+    const parsedDashArray = parseFloats(dashArray)
+    // All-zero dasharrays are invalid in PDF and equivalent to a solid stroke in SVG (#343).
+    if (!isEffectivelySolidDashArray(parsedDashArray)) {
+      context.attributeState.strokeDasharray = parsedDashArray
+      context.attributeState.strokeDashoffset = dashOffset
+    }
   }
   const miterLimit = getAttribute(domNode, context.styleSheets, 'stroke-miterlimit')
   if (miterLimit !== void 0 && miterLimit !== '') {

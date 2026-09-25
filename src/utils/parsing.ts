@@ -48,3 +48,11 @@ export function parseColor(colorString: string, contextColors: ContextColors | n
     return new RGBColor(colorString)
   }
 }
+
+/**
+ * PDF rejects a dash pattern of all zeroes (Acrobat errors). In SVG,
+ * stroke-dasharray="0 0" is equivalent to a solid stroke, so treat it as absent.
+ */
+export function isEffectivelySolidDashArray(dashArray: number[]): boolean {
+  return dashArray.length > 0 && dashArray.every(value => value === 0)
+}
