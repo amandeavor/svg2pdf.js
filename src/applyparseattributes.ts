@@ -1,7 +1,7 @@
 import { Context } from './context/context'
 import { getAttribute, nodeIs } from './utils/node'
 import { toPixels } from './utils/misc'
-import { parseColor, parseFloats } from './utils/parsing'
+import { parseColor, parseFloats, parseStrokeDasharray } from './utils/parsing'
 import FontFamily from 'font-family-papandreou'
 import { SvgNode } from './nodes/svgnode'
 import {
@@ -89,11 +89,18 @@ export function parseAttributes(context: Context, svgNode: SvgNode, node?: Eleme
   }
   const dashArray = getAttribute(domNode, context.styleSheets, 'stroke-dasharray')
   if (dashArray) {
-    const dashOffset = parseInt(
-      getAttribute(domNode, context.styleSheets, 'stroke-dashoffset') || '0'
-    )
-    context.attributeState.strokeDasharray = parseFloats(dashArray)
-    context.attributeState.strokeDashoffset = dashOffset
+    // null ⇒ solid stroke: SVG "0 0" / "0.00 0.00" is invalid in PDF (#343)
+    const parsedDashArray = parseStrokeDasharray(dashArray)
+    if (parsedDashArray === null) {
+      context.attributeState.strokeDasharray = null
+      context.attributeState.strokeDashoffset = 0
+    } else {
+      const dashOffset = parseInt(
+        getAttribute(domNode, context.styleSheets, 'stroke-dashoffset') || '0'
+      )
+      context.attributeState.strokeDasharray = parsedDashArray
+      context.attributeState.strokeDashoffset = dashOffset
+    }
   }
   const miterLimit = getAttribute(domNode, context.styleSheets, 'stroke-miterlimit')
   if (miterLimit !== void 0 && miterLimit !== '') {

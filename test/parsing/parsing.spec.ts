@@ -1,5 +1,5 @@
 import { describe, expect, it } from 'vitest'
-import { parseFloats } from '../../src/utils/parsing.js'
+import { parseFloats, parseStrokeDasharray } from '../../src/utils/parsing.js'
 
 describe('parseFloats', () => {
   it('returns an empty array when the input contains no numbers', () => {
@@ -16,5 +16,23 @@ describe('parseFloats', () => {
 
   it('has linear runtime complexity', { timeout: 100 }, () => {
     expect(parseFloats('1'.repeat(10000) + '!')).to.toHaveLength(1)
+  })
+})
+
+describe('parseStrokeDasharray', () => {
+  it('drops all-zero dash arrays that PDF rejects', () => {
+    expect(parseStrokeDasharray('0 0')).toBeNull()
+    expect(parseStrokeDasharray('0.00 0.00')).toBeNull()
+    expect(parseStrokeDasharray('0,0,0')).toBeNull()
+  })
+
+  it('keeps non-zero dash arrays', () => {
+    expect(parseStrokeDasharray('6,3')).toEqual([6, 3])
+    expect(parseStrokeDasharray('0 4')).toEqual([0, 4])
+  })
+
+  it('returns an empty array when there are no numbers', () => {
+    expect(parseStrokeDasharray('none')).toEqual([])
+    expect(parseStrokeDasharray('')).toEqual([])
   })
 })

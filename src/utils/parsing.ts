@@ -48,3 +48,16 @@ export function parseColor(colorString: string, contextColors: ContextColors | n
     return new RGBColor(colorString)
   }
 }
+
+/**
+ * SVG allows stroke-dasharray="0 0" (solid line). PDF does not: a dash
+ * array of all zeros is invalid. Return null so callers keep the default
+ * solid stroke instead of forwarding the zeros to jsPDF.
+ */
+export function parseStrokeDasharray(str: string): number[] | null {
+  const floats = parseFloats(str)
+  if (floats.length > 0 && floats.every(value => value === 0)) {
+    return null
+  }
+  return floats
+}
